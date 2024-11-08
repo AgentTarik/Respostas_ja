@@ -19,7 +19,7 @@ class Formulario(models.Model):
 class Campo(models.Model):
     formulario = models.ForeignKey(Formulario, on_delete=models.CASCADE, related_name='campos')
     tipo = models.CharField(max_length=50)
-    pergunta = models.CharField(max_length=255, on_delete=models.CASCADE, related_name='respostas')
+    pergunta = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{Formulario.idFormulario} {self.campo.pergunta}"
