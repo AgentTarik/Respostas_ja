@@ -1,14 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class Usuario(models.Model):
-    nome = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    senha = models.CharField(max_length=255)
+class Usuario(AbstractUser):
     quantidade_formularios_respondidos = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.nome
-
+        return self.username
 
 class Formulario(models.Model):
     STATUS_CHOICES = [

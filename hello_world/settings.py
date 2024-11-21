@@ -141,3 +141,9 @@ MEDIA_ROOT = BASE_DIR / "hello_world" / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+AUTH_USER_MODEL = "respostasJa.Usuario"
+
+LOGIN_REDIRECT_URL = "/home/"  # Redireciona para a home após login
+LOGIN_URL = "/login/"         # Página padrão de login

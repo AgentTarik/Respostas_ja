@@ -1,17 +1,20 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import Usuario, Formulario, TipoDePergunta, Pergunta, RespostaCampo
 
 @admin.register(Usuario)
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'email', 'quantidade_formularios_respondidos')
-    search_fields = ('nome', 'email')
+class UsuarioAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('quantidade_formularios_respondidos',)}),
+    )
+    list_display = ('username', 'email', 'first_name', 'last_name', 'quantidade_formularios_respondidos')
 
 
 @admin.register(Formulario)
 class FormularioAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'status', 'quantidade_formularios_respondidos', 'usuario')
     list_filter = ('status',)
-    search_fields = ('titulo', 'usuario__nome')
+    search_fields = ('titulo', 'usuario__username')
     autocomplete_fields = ('usuario',)
 
 
