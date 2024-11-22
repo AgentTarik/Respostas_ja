@@ -39,3 +39,7 @@ def home_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")  # Redireciona para a página de login após o logout
+
+
+def sobre_nos_view(request):
+    return render(request, "sobre.html")

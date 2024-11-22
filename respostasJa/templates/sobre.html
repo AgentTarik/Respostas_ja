@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Respostas Já</title>
+    <link rel="stylesheet" href="{% static 'sobre.css' %}">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="logo">Respostas Já</div>
+        <nav class="navbar">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Registrar</a>
+            <a href="#">Meu perfil</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: url("{% static 'img/hero-bg.png' %}"") no-repeat center center/cover;">
+        <div class="hero-text">
+            <h1>Respostas Já</h1>
+            <p>Conectando respostas, evoluindo ideias</p>
+        </div>
+    </section>
+
+    <!-- Sobre Nós -->
+    <section class="sobre-nos">
+        <div class="sobre-content">
+            <img src="{% static 'img/grafico.png' %}" alt="Gráfico de dados">
+            <div class="sobre-texto">
+                <h2>Sobre nós</h2>
+                <p>
+                    Na nossa plataforma, acreditamos no poder da colaboração para facilitar o acesso a respostas rápidas e relevantes para pesquisas acadêmicas e profissionais.
+                    Aqui, cada usuário participa de um ciclo de troca: ao responder pesquisas, ganha o direito de publicar as suas próprias, criando uma rede de cooperação e crescimento mútuo.
+                </p>
+                <p>
+                    Nosso objetivo é transformar a maneira como interagimos com dados, promovendo eficiência, qualidade e reciprocidade na busca por informações.
+                </p>
+                <a href="#" class="leia-mais">Leia mais</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

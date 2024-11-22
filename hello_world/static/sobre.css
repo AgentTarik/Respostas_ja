@@ -1,0 +1,101 @@
+/* Reset Básico */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Cabeçalho */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3b4f4b;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #3b4f4b;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #7b4adb;
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    margin: 0;
+}
+
+.hero-text p {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+/* Sobre Nós */
+.sobre-nos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+}
+
+.sobre-content {
+    display: flex;
+    max-width: 1200px;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.sobre-content img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sobre-texto h2 {
+    font-size: 32px;
+    color: #3b4f4b;
+    margin-bottom: 20px;
+}
+
+.sobre-texto p {
+    font-size: 18px;
+    color: #555555;
+    line-height: 1.6;
+}
+
+.sobre-texto .leia-mais {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #7b4adb;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sobre-texto .leia-mais:hover {
+    text-decoration: underline;
+}
