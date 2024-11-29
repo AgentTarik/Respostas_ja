@@ -33,6 +33,7 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path("sobre-nos/", views.sobre_nos_view, name="sobre-nos"),
     path("formularios/", views.listar_formularios, name="listar-formularios"),
+    path("meu-perfil/", views.meu_perfil_view, name="meu-perfil"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

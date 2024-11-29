@@ -54,3 +54,10 @@ def listar_formularios(request):
     else:
         formularios = [] 
     return render(request, "formularios.html", {"formularios": formularios})
+
+
+@login_required
+def meu_perfil_view(request):
+    usuario = request.user
+    return render(request, "meu_perfil.html", {"usuario": usuario})
+
