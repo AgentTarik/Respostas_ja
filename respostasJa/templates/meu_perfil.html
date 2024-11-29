@@ -22,14 +22,23 @@
     <!-- Perfil -->
     <section class="perfil">
         <div class="perfil-header">
-            <div class="perfil-icon">✏️</div>
+            <img src="{% static 'img/lapis.png' %}" alt="Lapis" class="opcao-icon">
             <h1>{{ usuario.username }}</h1>
         </div>
         <div class="perfil-content">
+            <!-- Opções do Usuário -->
             <div class="perfil-opcoes">
-                <button class="opcao-btn">Criar formulário</button>
-                <button class="opcao-btn">Minhas respostas</button>
+                <div class="opcao">
+                    <img src="{% static 'img/criar.png' %}" alt="Criar formulário" class="opcao-icon">
+                    <a href="{% url 'meu-perfil' %}">Criar formulário</a>
+                </div>
+                <div class="opcao">
+                    <img src="{% static 'img/respostas.png' %}" alt="Minhas respostas" class="opcao-icon">
+                    <a href="{% url 'meu-perfil' %}">Minhas respostas</a>
+                </div>
             </div>
+
+            <!-- Progresso do Usuário -->
             <div class="perfil-progress">
                 <p>Complete 5 respostas e desbloqueie um formulário!</p>
                 <progress value="{{ usuario.quantidade_formularios_respondidos }}" max="5"></progress>
