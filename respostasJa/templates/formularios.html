@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulários - Respostas Já</title>
+    <link rel="stylesheet" href="{% static 'formularios.css' %}">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="logo">Respostas Já</div>
+        <nav class="navbar">
+            <a href="{% url 'sobre-nos' %}">Sobre nós</a>
+            <a href="#">Pesquisas</a>
+            <a href="{% url 'sobre-nos' %}">Meu perfil</a>
+        </nav>
+    </header>
+
+    <!-- Filtros -->
+    <section class="filtros">
+        <input type="text" placeholder="Pesquisar..." class="search-bar">
+        <button class="filter-btn">Filtrar</button>
+        <div class="tags">
+            <span class="tag">Menos de 1 minuto</span>
+            <span class="tag">Inteligência Artificial</span>
+            <span class="tag">1 - 10 perguntas</span>
+        </div>
+    </section>
+
+    <!-- Lista de Formulários -->
+    <section class="formularios">
+        {% if formularios %}
+            {% for formulario in formularios %}
+            <div class="card">
+                <h3>{{ formulario.titulo }}</h3>
+                <p>Quantidade de respostas: {{ formulario.quantidade_formularios_respondidos }}</p>
+                <div class="card-details">
+                    <span class="autor">👤 Criado por: {{ formulario.usuario.username }}</span>
+                </div>
+                <button class="responder-btn">Responder</button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum formulário encontrado.</p>
+        {% endif %}
+    </section>
+
+</body>
+</html>
