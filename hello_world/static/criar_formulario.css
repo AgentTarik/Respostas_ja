@@ -1,0 +1,91 @@
+/* Reset básico */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Cabeçalho */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3b4f4b;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #3b4f4b;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #7b4adb;
+}
+
+/* Formulário */
+.formulario-criacao {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.formulario-criacao h1 {
+    text-align: center;
+    color: #3b4f4b;
+}
+
+.formulario-criacao form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-criacao input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+}
+
+.formulario-criacao select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3b4f4b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #333333;
+}
+
+.pergunta {
+    margin-bottom: 20px;
+}

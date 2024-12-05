@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Formulario
+from .models import Formulario, Pergunta, TipoDePergunta
 
 from .forms import UsuarioCreationForm
 
@@ -45,6 +45,34 @@ def logout_view(request):
 
 def sobre_nos_view(request):
     return render(request, "sobre.html")
+
+
+@login_required
+def criar_formulario_view(request):
+    if request.method == "POST":
+        # Cria o formulário
+        titulo = request.POST.get("titulo")
+        usuario = request.user
+        formulario = Formulario.objects.create(titulo=titulo, usuario=usuario)
+
+        # Processa as perguntas associadas
+        perguntas = request.POST.getlist("pergunta[]")
+        tipos = request.POST.getlist("tipo_de_pergunta[]")
+
+        for pergunta_texto, tipo in zip(perguntas, tipos):
+            tipo_de_pergunta = TipoDePergunta.objects.get(tipo=tipo)
+            Pergunta.objects.create(
+                pergunta=pergunta_texto,
+                formulario=formulario,
+                tipo_de_pergunta=tipo_de_pergunta
+            )
+
+        return redirect("listar-formularios")  # Redireciona após salvar
+
+    # Recupera os tipos de perguntas disponíveis
+    tipos_de_perguntas = TipoDePergunta.objects.all()
+    return render(request, "criar_formulario.html", {"tipos_de_perguntas": tipos_de_perguntas})
+
 
 @login_required
 def listar_formularios(request):

@@ -14,6 +14,7 @@
         <div class="logo">Respostas Já</div>
         <nav class="navbar">
             <a href="{% url 'sobre-nos' %}">Sobre nós</a>
+            <a href="{% url 'listar-formularios' %}">Formulários</a>
             <a href="{% url 'logout' %}">Logout</a>
             <a href="{% url 'meu-perfil' %}">Meu perfil</a>
         </nav>
@@ -30,7 +31,7 @@
             <div class="perfil-opcoes">
                 <div class="opcao">
                     <img src="{% static 'img/criar.png' %}" alt="Criar formulário" class="opcao-icon">
-                    <a href="{% url 'meu-perfil' %}">Criar formulário</a>
+                    <a href="{% url 'criar-formulario' %}">Criar formulário</a>
                 </div>
                 <div class="opcao">
                     <img src="{% static 'img/respostas.png' %}" alt="Minhas respostas" class="opcao-icon">

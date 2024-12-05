@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Formulário - Respostas Já</title>
+    <link rel="stylesheet" href="{% static 'criar_formulario.css' %}">
+    <script>
+        // Script para adicionar novas perguntas dinamicamente
+        function adicionarPergunta() {
+            const perguntasContainer = document.getElementById("perguntas-container");
+            const perguntaDiv = document.createElement("div");
+            perguntaDiv.className = "pergunta";
+
+            perguntaDiv.innerHTML = `
+                <input type="text" name="pergunta[]" placeholder="Digite a pergunta" required>
+                <select name="tipo_de_pergunta[]">
+                    {% for tipo in tipos_de_perguntas %}
+                    <option value="{{ tipo.tipo }}">{{ tipo }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" onclick="removerPergunta(this)">Remover</button>
+            `;
+            perguntasContainer.appendChild(perguntaDiv);
+        }
+
+        function removerPergunta(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Respostas Já</div>
+        <nav class="navbar">
+            <a href="{% url 'listar-formularios' %}">Formulários</a>
+            <a href="{% url 'meu-perfil' %}">Meu Perfil</a>
+        </nav>
+    </header>
+
+    <section class="formulario-criacao">
+        <h1>Criar Formulário</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="titulo" placeholder="Título do Formulário" required>
+
+            <div id="perguntas-container">
+                <div class="pergunta">
+                    <input type="text" name="pergunta[]" placeholder="Digite a pergunta" required>
+                    <select name="tipo_de_pergunta[]">
+                        {% for tipo in tipos_de_perguntas %}
+                        <option value="{{ tipo.tipo }}">{{ tipo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" onclick="adicionarPergunta()">Adicionar Nova Pergunta</button>
+            <button type="submit">Salvar Formulário</button>
+        </form>
+    </section>
+</body>
+</html>

@@ -34,6 +34,7 @@ urlpatterns = [
     path("sobre-nos/", views.sobre_nos_view, name="sobre-nos"),
     path("formularios/", views.listar_formularios, name="listar-formularios"),
     path("meu-perfil/", views.meu_perfil_view, name="meu-perfil"),
+    path("criar-formulario/", views.criar_formulario_view, name="criar-formulario"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
