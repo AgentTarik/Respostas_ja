@@ -1,3 +1,4 @@
+/* Reset básico */
 body, html {
     margin: 0;
     padding: 0;
@@ -20,6 +21,7 @@ body, html {
     font-size: 24px;
     font-weight: bold;
     color: #3b4f4b;
+    text-decoration: none;
 }
 
 .navbar a {
@@ -27,6 +29,7 @@ body, html {
     text-decoration: none;
     color: #3b4f4b;
     font-size: 16px;
+    font-weight: bold;
     transition: color 0.3s ease;
 }
 
@@ -42,28 +45,34 @@ body, html {
     padding: 20px;
     background-color: #ffffff;
     border-bottom: 1px solid #eaeaea;
+    margin-bottom: 20px;
 }
 
 .search-bar {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
     padding: 10px;
     border: 1px solid #cccccc;
     border-radius: 5px;
     margin-bottom: 10px;
+    font-size: 14px;
+    color: #555555;
 }
 
 .filter-btn {
     padding: 10px 20px;
-    background-color: #3b4f4f;
+    background-color: #3b4f4b;
     color: #ffffff;
     border: none;
     border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .filter-btn:hover {
     background-color: #333333;
+    transform: scale(1.05);
 }
 
 .tags {
@@ -76,14 +85,21 @@ body, html {
     color: #555555;
     padding: 5px 10px;
     border-radius: 15px;
-    margin-right: 5px;
+    margin: 5px 5px 0 0;
     font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.tag:hover {
+    background-color: #d5d5d5;
+    cursor: pointer;
 }
 
 /* Lista de Formulários */
 .formularios {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
 }
@@ -95,10 +111,16 @@ body, html {
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .card h3 {
-    font-size: 18px;
+    font-size: 20px;
     color: #3b4f4b;
     margin-bottom: 10px;
 }
@@ -115,16 +137,27 @@ body, html {
     margin-bottom: 15px;
 }
 
+/* Estilização do botão */
 .responder-btn {
-    padding: 10px;
+    display: inline-block;
+    padding: 10px 20px;
     background-color: #3b4f4b;
     color: #ffffff;
+    text-align: center;
+    text-decoration: none;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .responder-btn:hover {
-    background-color: #333333;
+    background-color: #7b4adb;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+
+

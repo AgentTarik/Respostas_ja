@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agradecimento</title>
+    <link rel="stylesheet" href="{% static 'agradecimento.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Respostas Já</div>
+    </header>
+    <section class="agradecimento">
+        <h1>Obrigado por responder!</h1>
+        <p>Suas respostas foram enviadas com sucesso.</p>
+        <a href="{% url 'listar-formularios' %}">Voltar para os Formulários</a>
+    </section>
+</body>
+</html>

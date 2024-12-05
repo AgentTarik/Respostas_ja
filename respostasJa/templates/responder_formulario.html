@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responder Formulário - {{ formulario.titulo }}</title>
+    <link rel="stylesheet" href="{% static 'responder_formulario.css' %}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">Respostas Já</div>
+        <nav class="navbar">
+            <a href="{% url 'listar-formularios' %}">Voltar</a>
+        </nav>
+    </header>
+
+    <section class="formulario-resposta">
+        <h1>{{ formulario.titulo }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <ul>
+                {% for pergunta in perguntas %}
+                <li>
+                    <label for="resposta-{{ pergunta.id }}">{{ pergunta.pergunta }}</label>
+                    <input type="text" name="respostas[]" id="resposta-{{ pergunta.id }}" placeholder="Digite sua resposta" required>
+                </li>
+                {% endfor %}
+            </ul>
+            <button type="submit">Enviar Respostas</button>
+        </form>
+    </section>
+</body>
+</html>

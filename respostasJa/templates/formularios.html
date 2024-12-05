@@ -40,7 +40,7 @@
                 <div class="card-details">
                     <span class="autor">👤 Criado por: {{ formulario.usuario.username }}</span>
                 </div>
-                <button class="responder-btn">Responder</button>
+                <button onclick="window.location.href='{% url "responder-formulario" formulario.id %}';"  class="responder-btn">Responder</button>
             </div>
             {% endfor %}
         {% else %}

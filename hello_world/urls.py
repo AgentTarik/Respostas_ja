@@ -20,6 +20,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from respostasJa import views
+from django.shortcuts import render
 
 
 
@@ -35,6 +36,8 @@ urlpatterns = [
     path("formularios/", views.listar_formularios, name="listar-formularios"),
     path("meu-perfil/", views.meu_perfil_view, name="meu-perfil"),
     path("criar-formulario/", views.criar_formulario_view, name="criar-formulario"),
+    path("formulario/<int:formulario_id>/", views.responder_formulario_view, name="responder-formulario"),
+    path("agradecimento/", lambda request: render(request, "agradecimento.html"), name="agradecimento"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
