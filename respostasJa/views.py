@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
 from .models import Formulario, Pergunta, TipoDePergunta, RespostaCampo
 
 from .forms import UsuarioCreationForm
@@ -49,6 +50,11 @@ def sobre_nos_view(request):
 
 @login_required
 def criar_formulario_view(request):
+
+    if request.user.quantidade_formularios_respondidos < 5:
+        messages.error(request, "Você precisa responder pelo menos 5 formulários antes de criar um.")
+        return redirect("listar-formularios")
+
     if request.method == "POST":
         # Cria o formulário
         titulo = request.POST.get("titulo")
@@ -66,7 +72,11 @@ def criar_formulario_view(request):
                 formulario=formulario,
                 tipo_de_pergunta=tipo_de_pergunta
             )
+        
+        usuario.quantidade_formularios_respondidos -= 5
+        usuario.save()
 
+        messages.success(request, "Formulário criado com sucesso!")
         return redirect("listar-formularios")  # Redireciona após salvar
 
     # Recupera os tipos de perguntas disponíveis
@@ -104,6 +114,11 @@ def responder_formulario_view(request, formulario_id):
                 texto=resposta_texto,
                 pergunta=pergunta
             )
+        
+        if request.user.is_authenticated and formulario.usuario != request.user :
+            usuario = request.user
+            usuario.quantidade_formularios_respondidos += 1
+            usuario.save()
         
         # Redireciona para uma página de confirmação ou de agradecimento
         return redirect("agradecimento")
