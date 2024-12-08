@@ -10,7 +10,7 @@ body, html {
 /* Cabeçalho */
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px;
     background-color: #ffffff;
@@ -21,71 +21,167 @@ body, html {
     font-size: 24px;
     font-weight: bold;
     color: #3b4f4b;
-}
-
-.navbar a {
-    margin-left: 20px;
     text-decoration: none;
-    color: #3b4f4b;
-    font-size: 16px;
-    transition: color 0.3s ease;
 }
 
-.navbar a:hover {
-    color: #7b4adb;
-}
-
-/* Formulário */
-.formulario-criacao {
-    padding: 20px;
+/* Seção de criação de formulário */
+.criar-formulario {
     max-width: 800px;
-    margin: 0 auto;
-}
-
-.formulario-criacao h1 {
-    text-align: center;
-    color: #3b4f4b;
-}
-
-.formulario-criacao form {
-    background: #ffffff;
+    margin: 40px auto;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.formulario-criacao input[type="text"] {
+.criar-formulario h1 {
+    font-size: 28px;
+    color: #3b4f4b;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    font-size: 16px;
+    color: #3b4f4b;
+    margin-bottom: 5px;
     display: block;
+}
+
+input[type="text"], select {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #eaeaea;
+    border: 1px solid #cccccc;
     border-radius: 5px;
+    font-size: 14px;
+    background-color: #f9f9f9;
 }
 
-.formulario-criacao select {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #eaeaea;
-    border-radius: 5px;
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #7b4adb;
+    box-shadow: 0 0 5px rgba(123, 74, 219, 0.5);
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #3b4f4b;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #333333;
+/* Estilo para perguntas */
+#perguntas-container {
+    margin-top: 20px;
 }
 
 .pergunta {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f3f4f6;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+}
+
+.pergunta label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.possiveis-respostas {
+    margin-top: 20px;
+}
+
+.opcoes-container {
+    margin-top: 10px;
+}
+
+.opcao {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.opcao input[type="text"] {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.opcao .remove-opcao-btn {
+    background-color: #f44336;
+    color: #ffffff;
+    border: none;
+    margin-top: -20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.opcao .remove-opcao-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Botões */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3b4f4b;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #7b4adb;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #333333;
+    transform: scale(0.95);
+}
+
+/* Botão para adicionar pergunta */
+#add-pergunta-btn {
+    margin-top: 20px;
+    background-color: #7b4adb;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#add-pergunta-btn:hover {
+    background-color: #5e35b1;
+}
+
+/* Botão para adicionar opção de resposta */
+.add-opcao-btn {
+    display: block;
+    margin-top: 10px;
+    background-color: #3b4f4b;
+    font-size: 14px;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+.add-opcao-btn:hover {
+    background-color: #7b4adb;
+}
+
+/* Botão de salvar formulário */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    background-color: #3b4f4b;
+}
+
+button[type="submit"]:hover {
+    background-color: #7b4adb;
 }

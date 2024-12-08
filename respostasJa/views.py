@@ -64,24 +64,35 @@ def criar_formulario_view(request):
         # Processa as perguntas associadas
         perguntas = request.POST.getlist("pergunta[]")
         tipos = request.POST.getlist("tipo_de_pergunta[]")
+        opcoes_respostas = request.POST.getlist("opcoes_respostas[]")
 
-        for pergunta_texto, tipo in zip(perguntas, tipos):
+        for i, (pergunta_texto, tipo) in enumerate(zip(perguntas, tipos)):
             tipo_de_pergunta = TipoDePergunta.objects.get(tipo=tipo)
+            if tipo in ["checkbox", "multipla_escolha"]:
+                # Filtra as opções de resposta para esta pergunta
+                inicio = i * len(opcoes_respostas) // len(perguntas)
+                fim = (i + 1) * len(opcoes_respostas) // len(perguntas)
+                possiveis_respostas = opcoes_respostas[inicio:fim]
+            else:
+                possiveis_respostas = None
+
             Pergunta.objects.create(
                 pergunta=pergunta_texto,
                 formulario=formulario,
-                tipo_de_pergunta=tipo_de_pergunta
+                tipo_de_pergunta=tipo_de_pergunta,
+                possiveisRespostas=possiveis_respostas
             )
-        
+
         usuario.quantidade_formularios_respondidos -= 5
         usuario.save()
 
         messages.success(request, "Formulário criado com sucesso!")
-        return redirect("listar-formularios")  # Redireciona após salvar
+        return redirect("listar-formularios")
 
     # Recupera os tipos de perguntas disponíveis
     tipos_de_perguntas = TipoDePergunta.objects.all()
     return render(request, "criar_formulario.html", {"tipos_de_perguntas": tipos_de_perguntas})
+
 
 
 @login_required

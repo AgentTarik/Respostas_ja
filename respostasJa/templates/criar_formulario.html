@@ -5,61 +5,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Formulário - Respostas Já</title>
+    <title>Criar Formulário</title>
     <link rel="stylesheet" href="{% static 'criar_formulario.css' %}">
-    <script>
-        // Script para adicionar novas perguntas dinamicamente
-        function adicionarPergunta() {
-            const perguntasContainer = document.getElementById("perguntas-container");
-            const perguntaDiv = document.createElement("div");
-            perguntaDiv.className = "pergunta";
-
-            perguntaDiv.innerHTML = `
-                <input type="text" name="pergunta[]" placeholder="Digite a pergunta" required>
-                <select name="tipo_de_pergunta[]">
-                    {% for tipo in tipos_de_perguntas %}
-                    <option value="{{ tipo.tipo }}">{{ tipo }}</option>
-                    {% endfor %}
-                </select>
-                <button type="button" onclick="removerPergunta(this)">Remover</button>
-            `;
-            perguntasContainer.appendChild(perguntaDiv);
-        }
-
-        function removerPergunta(button) {
-            button.parentElement.remove();
-        }
-    </script>
 </head>
 <body>
     <header class="header">
         <div class="logo">Respostas Já</div>
-        <nav class="navbar">
-            <a href="{% url 'listar-formularios' %}">Formulários</a>
-            <a href="{% url 'meu-perfil' %}">Meu Perfil</a>
-        </nav>
     </header>
 
-    <section class="formulario-criacao">
-        <h1>Criar Formulário</h1>
+    <section class="criar-formulario">
+        <h1>Novo Formulário</h1>
         <form method="POST">
             {% csrf_token %}
-            <input type="text" name="titulo" placeholder="Título do Formulário" required>
+            <label for="titulo">Título do Formulário</label>
+            <input type="text" id="titulo" name="titulo" required>
 
             <div id="perguntas-container">
-                <div class="pergunta">
-                    <input type="text" name="pergunta[]" placeholder="Digite a pergunta" required>
-                    <select name="tipo_de_pergunta[]">
-                        {% for tipo in tipos_de_perguntas %}
-                        <option value="{{ tipo.tipo }}">{{ tipo }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                <!-- Perguntas serão adicionadas dinamicamente aqui -->
             </div>
 
-            <button type="button" onclick="adicionarPergunta()">Adicionar Nova Pergunta</button>
+            <button type="button" id="add-pergunta-btn">Adicionar Nova Pergunta</button>
             <button type="submit">Salvar Formulário</button>
         </form>
     </section>
+
+    <script>
+        const perguntasContainer = document.getElementById("perguntas-container");
+        const addPerguntaBtn = document.getElementById("add-pergunta-btn");
+
+        addPerguntaBtn.addEventListener("click", () => {
+            const perguntaDiv = document.createElement("div");
+            perguntaDiv.classList.add("pergunta");
+
+            perguntaDiv.innerHTML = `
+                <label>Pergunta</label>
+                <input type="text" name="pergunta[]" required>
+
+                <label>Tipo de Pergunta</label>
+                <select name="tipo_de_pergunta[]" class="tipo-de-pergunta">
+                    <option value="textbox">TextBox</option>
+                    <option value="checkbox">CheckBox</option>
+                    <option value="multipla_escolha">Múltipla Escolha</option>
+                </select>
+
+                <div class="possiveis-respostas" style="display: none;">
+                    <label>Opções de Resposta</label>
+                    <div class="opcoes-container">
+                        <!-- Opções serão adicionadas aqui -->
+                    </div>
+                    <button type="button" class="add-opcao-btn">Adicionar Opção</button>
+                </div>
+            `;
+
+            perguntasContainer.appendChild(perguntaDiv);
+
+            const tipoDePerguntaSelect = perguntaDiv.querySelector(".tipo-de-pergunta");
+            const possiveisRespostasDiv = perguntaDiv.querySelector(".possiveis-respostas");
+            const addOpcaoBtn = perguntaDiv.querySelector(".add-opcao-btn");
+            const opcoesContainer = perguntaDiv.querySelector(".opcoes-container");
+
+            // Mostrar ou esconder as opções de resposta baseado no tipo de pergunta
+            tipoDePerguntaSelect.addEventListener("change", () => {
+                if (tipoDePerguntaSelect.value === "checkbox" || tipoDePerguntaSelect.value === "multipla_escolha") {
+                    possiveisRespostasDiv.style.display = "block";
+                } else {
+                    possiveisRespostasDiv.style.display = "none";
+                }
+            });
+
+            // Adicionar uma nova opção de resposta
+            addOpcaoBtn.addEventListener("click", () => {
+                const opcaoDiv = document.createElement("div");
+                opcaoDiv.classList.add("opcao");
+
+                opcaoDiv.innerHTML = `
+                    <input type="text" name="opcoes_respostas[]" placeholder="Opção de Resposta" required>
+                    <button type="button" class="remove-opcao-btn">Remover</button>
+                `;
+
+                opcoesContainer.appendChild(opcaoDiv);
+
+                // Remover opção de resposta
+                const removeOpcaoBtn = opcaoDiv.querySelector(".remove-opcao-btn");
+                removeOpcaoBtn.addEventListener("click", () => {
+                    opcaoDiv.remove();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
