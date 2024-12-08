@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Formulários</title>
+    <link rel="stylesheet" href="{% static 'meus_formularios.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Respostas Já</div>
+        <nav class="navbar">
+            <a href="{% url 'sobre-nos' %}">Sobre nós</a>
+            <a href="{% url 'listar-formularios' %}">Formulários</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'meu-perfil' %}">Meu perfil</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Meus Formulários</h1>
+
+        {% if formularios %}
+            <div class="formularios-list">
+                {% for formulario in formularios %}
+                    <div class="formulario-card">
+                        <h3>{{ formulario.titulo }}</h3>
+                        <p>Status: {{ formulario.get_status_display }}</p>
+                        <div class="formulario-actions">
+                            <form method="POST" action="{% url 'toggle_status' formulario.id %}">
+                                {% csrf_token %}
+                                {% if formulario.status == 'ativo' %}
+                                    <button type="submit" class="btn btn-desativar">Desativar</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-ativar">Ativar</button>
+                                {% endif %}
+                            </form>
+                            <a href="#" class="btn btn-ver-respostas">Ver Respostas</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Você ainda não criou nenhum formulário.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

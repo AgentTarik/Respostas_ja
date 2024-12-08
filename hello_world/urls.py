@@ -38,6 +38,8 @@ urlpatterns = [
     path("criar-formulario/", views.criar_formulario_view, name="criar-formulario"),
     path("formulario/<int:formulario_id>/", views.responder_formulario_view, name="responder-formulario"),
     path("agradecimento/", lambda request: render(request, "agradecimento.html"), name="agradecimento"),
+    path("meus-formularios/", views.meus_formularios_view, name="meus_formularios"),
+    path("toggle-status/<int:formulario_id>/", views.toggle_status_view, name="toggle_status"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

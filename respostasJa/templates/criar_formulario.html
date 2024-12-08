@@ -30,24 +30,25 @@
     </section>
 
     <script>
+        let perguntaIndex = -1;
         const perguntasContainer = document.getElementById("perguntas-container");
         const addPerguntaBtn = document.getElementById("add-pergunta-btn");
-
+    
         addPerguntaBtn.addEventListener("click", () => {
             const perguntaDiv = document.createElement("div");
             perguntaDiv.classList.add("pergunta");
-
+    
             perguntaDiv.innerHTML = `
                 <label>Pergunta</label>
-                <input type="text" name="pergunta[]" required>
-
+                <input type="text" name="perguntas[texto]" required>
+    
                 <label>Tipo de Pergunta</label>
-                <select name="tipo_de_pergunta[]" class="tipo-de-pergunta">
+                <select name="perguntas[tipo]" class="tipo-de-pergunta">
                     <option value="textbox">TextBox</option>
                     <option value="checkbox">CheckBox</option>
                     <option value="multipla_escolha">Múltipla Escolha</option>
                 </select>
-
+    
                 <div class="possiveis-respostas" style="display: none;">
                     <label>Opções de Resposta</label>
                     <div class="opcoes-container">
@@ -56,14 +57,14 @@
                     <button type="button" class="add-opcao-btn">Adicionar Opção</button>
                 </div>
             `;
-
+    
             perguntasContainer.appendChild(perguntaDiv);
-
+    
             const tipoDePerguntaSelect = perguntaDiv.querySelector(".tipo-de-pergunta");
             const possiveisRespostasDiv = perguntaDiv.querySelector(".possiveis-respostas");
             const addOpcaoBtn = perguntaDiv.querySelector(".add-opcao-btn");
             const opcoesContainer = perguntaDiv.querySelector(".opcoes-container");
-
+    
             // Mostrar ou esconder as opções de resposta baseado no tipo de pergunta
             tipoDePerguntaSelect.addEventListener("change", () => {
                 if (tipoDePerguntaSelect.value === "checkbox" || tipoDePerguntaSelect.value === "multipla_escolha") {
@@ -72,26 +73,33 @@
                     possiveisRespostasDiv.style.display = "none";
                 }
             });
-
+    
             // Adicionar uma nova opção de resposta
             addOpcaoBtn.addEventListener("click", () => {
                 const opcaoDiv = document.createElement("div");
                 opcaoDiv.classList.add("opcao");
 
+                // Adiciona input para a opção
                 opcaoDiv.innerHTML = `
-                    <input type="text" name="opcoes_respostas[]" placeholder="Opção de Resposta" required>
+                    <input type="text" name="perguntas[${perguntaIndex}][opcoes][]" placeholder="Opção de Resposta" required>
                     <button type="button" class="remove-opcao-btn">Remover</button>
                 `;
 
                 opcoesContainer.appendChild(opcaoDiv);
 
-                // Remover opção de resposta
+                // Permite remover a opção
                 const removeOpcaoBtn = opcaoDiv.querySelector(".remove-opcao-btn");
                 removeOpcaoBtn.addEventListener("click", () => {
                     opcaoDiv.remove();
                 });
             });
+
+
+    
+            perguntaIndex++; // Incrementa o índice para a próxima pergunta
         });
     </script>
+    
+    
 </body>
 </html>

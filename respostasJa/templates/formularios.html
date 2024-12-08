@@ -14,6 +14,7 @@
         <div class="logo">Respostas Já</div>
         <nav class="navbar">
             <a href="{% url 'sobre-nos' %}">Sobre nós</a>
+            <a href="{% url 'listar-formularios' %}">Formulários</a>
             <a href="{% url 'logout' %}">Logout</a>
             <a href="{% url 'meu-perfil' %}">Meu perfil</a>
         </nav>
@@ -34,14 +35,16 @@
     <section class="formularios">
         {% if formularios %}
             {% for formulario in formularios %}
-            <div class="card">
-                <h3>{{ formulario.titulo }}</h3>
-                <p>Quantidade de respostas: {{ formulario.quantidade_formularios_respondidos }}</p>
-                <div class="card-details">
-                    <span class="autor">👤 Criado por: {{ formulario.usuario.username }}</span>
+            {% if formulario.status == "ativo" %}
+                <div class="card">
+                    <h3>{{ formulario.titulo }}</h3>
+                    <p>Quantidade de respostas: {{ formulario.quantidade_formularios_respondidos }}</p>
+                    <div class="card-details">
+                        <span class="autor">👤 Criado por: {{ formulario.usuario.username }}</span>
+                    </div>
+                    <button onclick="window.location.href='{% url "responder-formulario" formulario.id %}';"  class="responder-btn">Responder</button>
                 </div>
-                <button onclick="window.location.href='{% url "responder-formulario" formulario.id %}';"  class="responder-btn">Responder</button>
-            </div>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>Nenhum formulário encontrado.</p>

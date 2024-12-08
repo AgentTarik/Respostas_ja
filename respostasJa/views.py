@@ -47,51 +47,47 @@ def logout_view(request):
 def sobre_nos_view(request):
     return render(request, "sobre.html")
 
-
-@login_required
 def criar_formulario_view(request):
-
     if request.user.quantidade_formularios_respondidos < 5:
         messages.error(request, "Você precisa responder pelo menos 5 formulários antes de criar um.")
         return redirect("listar-formularios")
 
     if request.method == "POST":
-        # Cria o formulário
         titulo = request.POST.get("titulo")
-        usuario = request.user
-        formulario = Formulario.objects.create(titulo=titulo, usuario=usuario)
+        formulario = Formulario.objects.create(
+            titulo=titulo,
+            usuario=request.user
+        )
 
-        # Processa as perguntas associadas
-        perguntas = request.POST.getlist("pergunta[]")
-        tipos = request.POST.getlist("tipo_de_pergunta[]")
-        opcoes_respostas = request.POST.getlist("opcoes_respostas[]")
+        perguntas_data = request.POST.getlist("perguntas[texto]")
+        tipos_data = request.POST.getlist("perguntas[tipo]")
+        opcoes_data = request.POST.getlist("perguntas[opcoes][]")
 
-        for i, (pergunta_texto, tipo) in enumerate(zip(perguntas, tipos)):
+        for i, pergunta_texto in enumerate(perguntas_data):
+            tipo = tipos_data[i]
             tipo_de_pergunta = TipoDePergunta.objects.get(tipo=tipo)
-            if tipo in ["checkbox", "multipla_escolha"]:
-                # Filtra as opções de resposta para esta pergunta
-                inicio = i * len(opcoes_respostas) // len(perguntas)
-                fim = (i + 1) * len(opcoes_respostas) // len(perguntas)
-                possiveis_respostas = opcoes_respostas[inicio:fim]
-            else:
-                possiveis_respostas = None
 
-            Pergunta.objects.create(
+            # Cria a pergunta
+            pergunta = Pergunta.objects.create(
                 pergunta=pergunta_texto,
                 formulario=formulario,
-                tipo_de_pergunta=tipo_de_pergunta,
-                possiveisRespostas=possiveis_respostas
+                tipo_de_pergunta=tipo_de_pergunta
             )
 
-        usuario.quantidade_formularios_respondidos -= 5
-        usuario.save()
+            # Salva as opções, se for checkbox ou múltipla escolha
+            if tipo in ["checkbox", "multipla_escolha"]:
+                opcoes = request.POST.getlist(f"perguntas[{i}][opcoes][]")
+                if opcoes:  # Certifique-se de que as opções não estão vazias
+                    pergunta.possiveisRespostas = opcoes
+                    pergunta.save()
 
-        messages.success(request, "Formulário criado com sucesso!")
-        return redirect("listar-formularios")
 
-    # Recupera os tipos de perguntas disponíveis
-    tipos_de_perguntas = TipoDePergunta.objects.all()
-    return render(request, "criar_formulario.html", {"tipos_de_perguntas": tipos_de_perguntas})
+        request.user.quantidade_formularios_respondidos -= 5
+        request.user.save()
+
+        return redirect("meus_formularios")  # Redirecionar após salvar o formulário
+
+    return render(request, "criar_formulario.html")
 
 
 
@@ -112,30 +108,58 @@ def meu_perfil_view(request):
 
 
 def responder_formulario_view(request, formulario_id):
-    # Busca o formulário pelo ID
     formulario = get_object_or_404(Formulario, id=formulario_id)
-    
+    perguntas = formulario.perguntas.all()
+
     if request.method == "POST":
-        # Processa as respostas enviadas
-        respostas = request.POST.getlist("respostas[]")
-        perguntas = Pergunta.objects.filter(formulario=formulario)
-        
-        for pergunta, resposta_texto in zip(perguntas, respostas):
-            RespostaCampo.objects.create(
-                texto=resposta_texto,
-                pergunta=pergunta
-            )
-        
+        for pergunta in perguntas:
+            if pergunta.tipo_de_pergunta.tipo == "textbox":
+                # Salvar resposta de texto
+                resposta_texto = request.POST.get(f"resposta_{pergunta.id}")
+                if resposta_texto:
+                    RespostaCampo.objects.create(texto=resposta_texto, pergunta=pergunta)
+
+            elif pergunta.tipo_de_pergunta.tipo == "multipla_escolha":
+                # Salvar resposta de múltipla escolha
+                resposta_opcao = request.POST.get(f"resposta_{pergunta.id}")
+                if resposta_opcao:
+                    RespostaCampo.objects.create(texto=resposta_opcao, pergunta=pergunta)
+
+            elif pergunta.tipo_de_pergunta.tipo == "checkbox":
+                # Salvar todas as respostas de checkbox selecionadas
+                resposta_opcoes = request.POST.getlist(f"resposta_{pergunta.id}[]")
+                print(resposta_opcoes)
+                print(pergunta.id)
+                for resposta_opcao in resposta_opcoes:
+                    RespostaCampo.objects.create(texto=resposta_opcao, pergunta=pergunta)
+
         if request.user.is_authenticated and formulario.usuario != request.user :
             usuario = request.user
             usuario.quantidade_formularios_respondidos += 1
             usuario.save()
-        
-        # Redireciona para uma página de confirmação ou de agradecimento
-        return redirect("agradecimento")
-    
-    # Recupera todas as perguntas do formulário
-    perguntas = Pergunta.objects.filter(formulario=formulario)
-    return render(request, "responder_formulario.html", {"formulario": formulario, "perguntas": perguntas})
+
+        return redirect("agradecimento")  # Redirecionar para a página de agradecimento após salvar as respostas
+
+    return render(request, "responder_formulario.html", {
+        "formulario": formulario,
+        "perguntas": perguntas
+    })
+
+
+@login_required
+def meus_formularios_view(request):
+    formularios = Formulario.objects.filter(usuario=request.user)
+    return render(request, "meus_formularios.html", {"formularios": formularios})
+
+
+@login_required
+def toggle_status_view(request, formulario_id):
+    formulario = get_object_or_404(Formulario, id=formulario_id, usuario=request.user)
+    if formulario.status == "ativo":
+        formulario.status = "inativo"
+    else:
+        formulario.status = "ativo"
+    formulario.save()
+    return redirect("meus_formularios")
 
 

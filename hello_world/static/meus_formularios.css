@@ -52,45 +52,60 @@ h1 {
     text-align: center;
 }
 
-.pergunta {
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: #f7f7f7;
-    border: 1px solid #eaeaea;
-    border-radius: 10px;
+.formularios-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.pergunta h3 {
-    margin-bottom: 15px;
+.formulario-card {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-card h3 {
+    margin: 0 0 10px 0;
     font-size: 18px;
     color: #3b4f4b;
 }
 
-.opcao {
+.formulario-card p {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 15px;
+}
+
+.formulario-actions {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    gap: 10px;
 }
 
-.opcao input {
-    margin-right: 10px;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px 20px;
-    background-color: #3b4f4b;
-    color: #ffffff;
+.btn {
+    padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
 }
 
-button:hover {
-    background-color: #7b4adb;
-    transform: scale(1.05);
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-desativar {
+    background-color: #f44336;
+}
+
+.btn-ativar {
+    background-color: #4caf50;
+}
+
+.btn-ver-respostas {
+    background-color: #3b4f4b;
 }

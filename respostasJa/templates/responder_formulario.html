@@ -1,14 +1,12 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responder Formulário - {{ formulario.titulo }}</title>
+    <title>Responder Formulário</title>
     <link rel="stylesheet" href="{% static 'responder_formulario.css' %}">
 </head>
-
 <body>
     <header class="header">
         <div class="logo">Respostas Já</div>
@@ -17,20 +15,36 @@
         </nav>
     </header>
 
-    <section class="formulario-resposta">
+    <main>
         <h1>{{ formulario.titulo }}</h1>
         <form method="POST">
             {% csrf_token %}
-            <ul>
-                {% for pergunta in perguntas %}
-                <li>
-                    <label for="resposta-{{ pergunta.id }}">{{ pergunta.pergunta }}</label>
-                    <input type="text" name="respostas[]" id="resposta-{{ pergunta.id }}" placeholder="Digite sua resposta" required>
-                </li>
-                {% endfor %}
-            </ul>
+            {% for pergunta in perguntas %}
+                <div class="pergunta">
+                    <h3>{{ pergunta.pergunta }}</h3>
+                    {% if pergunta.tipo_de_pergunta.tipo == "textbox" %}
+                        <input type="text" name="resposta_{{ pergunta.id }}" placeholder="Digite sua resposta">
+
+                    {% elif pergunta.tipo_de_pergunta.tipo == "multipla_escolha" %}
+                        {% for opcao in pergunta.possiveisRespostas %}
+                            <div class="opcao">
+                                <input type="radio" id="opcao_{{ forloop.counter }}" name="resposta_{{ pergunta.id }}" value="{{ opcao }}">
+                                <label for="opcao_{{ forloop.counter }}">{{ opcao }}</label>
+                            </div>
+                        {% endfor %}
+                        
+                    {% elif pergunta.tipo_de_pergunta.tipo == "checkbox" %}
+                        {% for opcao in pergunta.possiveisRespostas %}
+                            <div class="opcao">
+                                <input type="checkbox" id="opcao_{{ forloop.counter }}" name="resposta_{{ pergunta.id }}[]" value="{{ opcao }}">
+                                <label for="opcao_{{ forloop.counter }}">{{ opcao }}</label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
             <button type="submit">Enviar Respostas</button>
         </form>
-    </section>
+    </main>
 </body>
 </html>
