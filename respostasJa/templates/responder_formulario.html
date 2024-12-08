@@ -32,7 +32,7 @@
                                 <label for="opcao_{{ forloop.counter }}">{{ opcao }}</label>
                             </div>
                         {% endfor %}
-                        
+
                     {% elif pergunta.tipo_de_pergunta.tipo == "checkbox" %}
                         {% for opcao in pergunta.possiveisRespostas %}
                             <div class="opcao">
@@ -46,5 +46,60 @@
             <button type="submit">Enviar Respostas</button>
         </form>
     </main>
+
+
+    {% if errors %}
+        <div class="errors">
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function (event) {
+            let isValid = true;
+    
+            // Validar textboxes
+            const textboxes = document.querySelectorAll("input[type='text']");
+            textboxes.forEach((textbox) => {
+                if (!textbox.value.trim()) {
+                    isValid = false;
+                    textbox.style.border = "1px solid red"; // Destacar campos não preenchidos
+                } else {
+                    textbox.style.border = ""; // Remover destaque se válido
+                }
+            });
+    
+            // Validar múltiplas escolhas (radio buttons)
+            const perguntas = new Set(); // Para verificar todas as perguntas com radios
+            const radios = document.querySelectorAll("input[type='radio']");
+            radios.forEach((radio) => {
+                perguntas.add(radio.name);
+            });
+    
+            perguntas.forEach((perguntaName) => {
+                const selecionados = document.querySelector(`input[name='${perguntaName}']:checked`);
+                if (!selecionados) {
+                    isValid = false;
+                    const perguntaDiv = document.querySelector(`input[name='${perguntaName}']`).closest(".pergunta");
+                    perguntaDiv.style.border = "1px solid red"; // Destacar pergunta não respondida
+                } else {
+                    const perguntaDiv = document.querySelector(`input[name='${perguntaName}']`).closest(".pergunta");
+                    perguntaDiv.style.border = ""; // Remover destaque se válido
+                }
+            });
+    
+            // Bloquear envio se inválido
+            if (!isValid) {
+                event.preventDefault();
+                alert("Por favor, responda todas as perguntas obrigatórias.");
+            }
+        });
+    </script>
+
 </body>
 </html>

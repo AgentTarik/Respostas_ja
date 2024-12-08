@@ -112,6 +112,27 @@ def responder_formulario_view(request, formulario_id):
     perguntas = formulario.perguntas.all()
 
     if request.method == "POST":
+        errors = []
+
+        for pergunta in perguntas:
+            if pergunta.tipo_de_pergunta.tipo == "textbox":
+                resposta = request.POST.get(f"resposta_{pergunta.id}")
+                if not resposta or not resposta.strip():
+                    errors.append(f"A pergunta '{pergunta.pergunta}' não foi respondida.")
+
+            elif pergunta.tipo_de_pergunta.tipo == "multipla_escolha":
+                resposta = request.POST.get(f"resposta_{pergunta.id}")
+                if not resposta:
+                    errors.append(f"A pergunta '{pergunta.pergunta}' não foi respondida.")
+
+        if errors:
+            return render(request, "responder_formulario.html", {
+                "formulario": formulario,
+                "perguntas": perguntas,
+                "errors": errors
+            })
+        
+
         for pergunta in perguntas:
             if pergunta.tipo_de_pergunta.tipo == "textbox":
                 # Salvar resposta de texto
@@ -127,9 +148,7 @@ def responder_formulario_view(request, formulario_id):
 
             elif pergunta.tipo_de_pergunta.tipo == "checkbox":
                 # Salvar todas as respostas de checkbox selecionadas
-                resposta_opcoes = request.POST.getlist(f"resposta_{pergunta.id}[]")
-                print(resposta_opcoes)
-                print(pergunta.id)
+                resposta_opcoes = request.POST.getlist(f"resposta_{pergunta.id}[]") 
                 for resposta_opcao in resposta_opcoes:
                     RespostaCampo.objects.create(texto=resposta_opcao, pergunta=pergunta)
 
