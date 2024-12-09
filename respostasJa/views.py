@@ -20,16 +20,16 @@ def login_view(request):
     return render(request, "login.html", {"form": form})
 
 
-# Página de registro
+
 def register_view(request):
     if request.method == "POST":
         form = UsuarioCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  
-            login(request, user)  # Faz login automaticamente
-            return redirect("listar-formularios")  
+            form.save()
+            return redirect("login")
     else:
         form = UsuarioCreationForm()
+
     return render(request, "register.html", {"form": form})
 
 

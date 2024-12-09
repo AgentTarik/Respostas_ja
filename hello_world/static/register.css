@@ -89,3 +89,21 @@ body, html {
     color: #3b4f4b;
     font-weight: bold;
 }
+
+.error {
+    color: #3b4f4b; /* Usar a cor principal do tema */
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.errors {
+    background-color: #f0f5f4; /* Fundo claro que combina com o tema */
+    color: #3b4f4b; /* Cor principal */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cce3df; /* Borda em tom suave */
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
