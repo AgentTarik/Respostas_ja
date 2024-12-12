@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.http import HttpResponseForbidden
 from .models import Formulario, Pergunta, TipoDePergunta, RespostaCampo
 
 from .forms import UsuarioCreationForm
@@ -180,5 +181,17 @@ def toggle_status_view(request, formulario_id):
         formulario.status = "ativo"
     formulario.save()
     return redirect("meus_formularios")
+
+
+def visualizar_respostas(request, formulario_id):
+
+    formulario = get_object_or_404(Formulario, id=formulario_id)
+    perguntas = formulario.perguntas.prefetch_related('respostas')  # Melhora desempenho
+
+    return render(request, 'visualizar_respostas.html', {
+        'formulario': formulario,
+        'perguntas': perguntas,
+    })
+
 
 

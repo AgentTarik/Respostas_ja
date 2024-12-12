@@ -25,7 +25,7 @@ from django.shortcuts import render
 
 
 urlpatterns = [
-    path("", core_views.index),
+    path("", views.sobre_nos_view),
     path("admin/", admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path("login/", views.login_view, name="login"),
@@ -40,6 +40,7 @@ urlpatterns = [
     path("agradecimento/", lambda request: render(request, "agradecimento.html"), name="agradecimento"),
     path("meus-formularios/", views.meus_formularios_view, name="meus_formularios"),
     path("toggle-status/<int:formulario_id>/", views.toggle_status_view, name="toggle_status"),
+   path('visualizar-respostas/<int:formulario_id>/', views.visualizar_respostas, name='visualizar_respostas'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

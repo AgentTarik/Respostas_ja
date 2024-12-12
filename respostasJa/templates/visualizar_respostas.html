@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respostas - {{ formulario.titulo }}</title>
+    <link rel="stylesheet" href="{% static 'visualizar_respostas.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Respostas do Formulário: {{ formulario.titulo }}</h1>
+
+        {% for pergunta in perguntas %}
+        <div class="pergunta">
+            <h2>{{ pergunta.pergunta }}</h2>
+
+            {% if pergunta.respostas.exists %}
+            <ul class="respostas">
+                {% for resposta in pergunta.respostas.all %}
+                <li>{{ resposta.texto }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Não há respostas ainda.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <a href="{% url 'meu-perfil' %}" class="voltar">Voltar</a>
+    </div>
+</body>
+</html>
